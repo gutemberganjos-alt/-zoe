@@ -1,0 +1,23 @@
+{
+  "name": "+ZOE — Estudo Bíblico Inteligente",
+  "short_name": "+ZOE",
+  "description": "Estude. Pregue. Defenda a Fé.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F1B2D",
+  "theme_color": "#1E3A5F",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192/1E3A5F/C8960C?text=ZOE",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/1E3A5F/C8960C?text=ZOE",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
