@@ -1,6 +1,6 @@
 // ===== CONFIGURAÇÃO =====
 // ⚠️ SUBSTITUA PELA SUA API KEY DO GEMINI:
-const API_KEY = "SUA_API_KEY_AQUI";
+const API_KEY = "AIzaSyDzhE1XNtC42suh7VNjI7AcNBhMqtNb5Zo";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 // ===== PLANOS =====
