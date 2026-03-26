@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#1E3A5F"/>
+<meta name="description" content="Estude. Pregue. Defenda a Fé."/>
+<link rel="manifest" href="manifest.json"/>
+<title>+ZOE — Estudo Bíblico Inteligente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" class="splash">
+  <div class="splash-content">
+    <div class="cross-icon">✝</div>
+    <h1>+ZOE</h1>
+    <p class="splash-sub">Estude. Pregue. Defenda a Fé.</p>
+    <div class="loading-bar"><div class="loading-fill"></div></div>
+    <p class="splash-verse">"No princípio era o Verbo" — João 1:1</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="app hidden">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">✝ +ZOE</span>
+    </div>
+    <div class="header-right">
+      <div class="uso-badge" id="uso-badge">
+        <span id="uso-texto">0/10 hoje</span>
+      </div>
+      <button class="btn-icon" onclick="showSection('planos')" title="Meus Planos">👑</button>
+    </div>
+  </header>
+
+  <!-- NAVEGAÇÃO INFERIOR -->
+  <nav class="bottom-nav">
+    <button class="bnav-btn active" onclick="showSection('home')" data-section="home">
+      <span class="bnav-icon">🏠</span>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-btn" onclick="showSection('gerar')" data-section="gerar">
+      <span class="bnav-icon">✍️</span>
+      <span class="bnav-label">Gerar</span>
+    </button>
+    <button class="bnav-btn" onclick="showSection('exegese')" data-section="exegese">
+      <span class="bnav-icon">🔍</span>
+      <span class="bnav-label">Exegese</span>
+    </button>
+    <button class="bnav-btn" onclick="showSection('estudos')" data-section="estudos">
+      <span class="bnav-icon">📚</span>
+      <span class="bnav-label">Estudos</span>
+    </button>
+    <button class="bnav-btn" onclick="showSection('salvos')" data-section="salvos">
+      <span class="bnav-icon">💾</span>
+      <span class="bnav-label">Salvos</span>
+    </button>
+  </nav>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="main-content">
+
+    <!-- HOME -->
+    <section id="section-home" class="section active">
+      <div class="home-greeting">
+        <h2 id="greeting">Bom dia! 👋</h2>
+        <p id="greeting-sub">Que a Palavra ilumine seu ministério hoje.</p>
+      </div>
+
+      <div class="uso-card" id="uso-card">
+        <div class="uso-info">
+          <span class="uso-label">Uso de hoje</span>
+          <span class="uso-count" id="uso-count">0 de 10 gerações</span>
+        </div>
+        <div class="uso-bar">
+          <div class="uso-fill" id="uso-fill" style="width:0%"></div>
+        </div>
+        <p class="uso-plano" id="uso-plano">Plano Essencial</p>
+      </div>
+
+      <div class="versiculo-card">
+        <p class="versiculo-label">✝ Versículo do Dia</p>
+        <p class="versiculo-texto" id="versiculo-dia">
+          "Lâmpada para os meus pés é tua palavra e luz para o meu caminho." — Salmos 119:105
+        </p>
+      </div>
+
+      <h3 class="section-subtitle">⚡ Acesso Rápido</h3>
+      <div class="quick-grid">
+        <div class="quick-card azul" onclick="showSection('gerar')">
+          <span>✍️</span>
+          <p>Gerar Mensagem</p>
+        </div>
+        <div class="quick-card dourado" onclick="showSection('exegese')">
+          <span>🔍</span>
+          <p>Exegese</p>
+        </div>
+        <div class="quick-card roxo" onclick="quickStudy('heresias');showSection('estudos')">
+          <span>🛡️</span>
+          <p>Detector Heresias</p>
+        </div>
+        <div class="quick-card verde" onclick="quickStudy('series');showSection('estudos')">
+          <span>📅</span>
+          <p>Série de Mensagens</p>
+        </div>
+      </div>
+
+      <h3 class="section-subtitle">💾 Últimos Salvos</h3>
+      <div id="home-salvos">
+        <div class="empty-mini">Nenhum estudo salvo ainda.</div>
+      </div>
+    </section>
+
+    <!-- GERAR -->
+    <section id="section-gerar" class="section hidden">
+      <div class="section-header">
+        <h2>✍️ Gerador de Conteúdo</h2>
+        <p>Crie mensagens, estudos e esboços completos.</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label>📌 Tipo de conteúdo
+            <span class="tip" title="Escolha o que deseja criar">ℹ️</span>
+          </label>
+          <div class="chips">
+            <button class="chip active" data-type="mensagem" onclick="selectChip(this,'type')">🎤 Mensagem</button>
+            <button class="chip" data-type="estudo" onclick="selectChip(this,'type')">📖 Estudo</button>
+            <button class="chip" data-type="devocional" onclick="selectChip(this,'type')">🙏 Devocional</button>
+            <button class="chip" data-type="celula" onclick="selectChip(this,'type')">👥 Célula</button>
+            <button class="chip" data-type="esboco" onclick="selectChip(this,'type')">📋 Esboço</button>
+            <button class="chip" data-type="academico" onclick="selectChip(this,'type')">🎓 Acadêmico</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>👥 Público-alvo
+            <span class="tip" title="O conteúdo será adaptado para este grupo">ℹ️</span>
+          </label>
+          <div class="chips">
+            <button class="chip active" data-audience="geral" onclick="selectChip(this,'audience')">🏛️ Igreja</button>
+            <button class="chip" data-audience="celula" onclick="selectChip(this,'audience')">🏠 Célula</button>
+            <button class="chip" data-audience="jovens" onclick="selectChip(this,'audience')">🔥 Jovens</button>
+            <button class="chip" data-audience="adolescentes" onclick="selectChip(this,'audience')">⚡ Adolescentes</button>
+            <button class="chip" data-audience="pastores" onclick="selectChip(this,'audience')">👔 Pastores</button>
+            <button class="chip" data-audience="academico" onclick="selectChip(this,'audience')">🎓 Acadêmico</button>
+            <button class="chip" data-audience="infantil" onclick="selectChip(this,'audience')">🌈 Infantil</button>
+            <button class="chip" data-audience="idosos" onclick="selectChip(this,'audience')">👴 3ª Idade</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>📝 Texto, tema ou palavra
+            <span class="tip" title="Ex: João 3:16 / Graça / A fé de Abraão">ℹ️</span>
+          </label>
+          <textarea id="input-tema" placeholder="Ex: João 3:16&#10;ou: O tema da graça&#10;ou: A palavra fidelidade" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>📊 Profundidade
+            <span class="tip" title="Simples = linguagem acessível | Profundo = análise teológica">ℹ️</span>
+          </label>
+          <div class="slider-row">
+            <span>Simples</span>
+            <input type="range" id="nivel" min="1" max="3" value="2"/>
+            <span>Profundo</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>📖 Versão da Bíblia
+            <span class="tip" title="Versão preferida para as citações">ℹ️</span>
+          </label>
+          <div class="chips">
+            <button class="chip active" data-versao="ARC" onclick="selectChip(this,'versao')">ARC</button>
+            <button class="chip" data-versao="NVI" onclick="selectChip(this,'versao')">NVI</button>
+            <button class="chip" data-versao="NAA" onclick="selectChip(this,'versao')">NAA</button>
+            <button class="chip" data-versao="ACF" onclick="selectChip(this,'versao')">ACF</button>
+            <button class="chip" data-versao="NTLH" onclick="selectChip(this,'versao')">NTLH</button>
+          </div>
+        </div>
+
+        <div class="alert-dourado">
+          🛡️ <strong>Filtro Doutrinário Ativo</strong> — Conteúdo baseado na autoridade bíblica. Heresias e liberalismo teológico serão sinalizados.
+        </div>
+
+        <button class="btn-primary" onclick="generateContent()" id="btn-gerar">
+          ⚡ Gerar Conteúdo
+        </button>
+      </div>
+
+      <div id="resultado-gerar" class="resultado hidden">
+        <div class="resultado-header">
+          <h3 id="resultado-titulo">Resultado</h3>
+          <div class="resultado-actions">
+            <button class="btn-act" onclick="copyResult('gerar')" title="Copiar">📋</button>
+            <button class="btn-act" onclick="saveResult('gerar')" title="Salvar">💾</button>
+            <button class="btn-act" onclick="downloadPDF('gerar')" title="PDF">📄</button>
+            <button class="btn-act" onclick="printResult('gerar')" title="Imprimir">🖨️</button>
+            <button class="btn-act" onclick="shareResult('gerar')" title="Compartilhar">📤</button>
+          </div>
+        </div>
+        <div id="resultado-gerar-content" class="resultado-text"></div>
+        <div class="resultado-footer">
+          <button class="btn-secondary" onclick="generateContent()">🔄 Gerar Novamente</button>
+          <button class="btn-secondary" onclick="showRefinar('gerar')">✏️ Refinar</button>
+        </div>
+        <div id="refinar-gerar" class="refinar hidden">
+          <textarea id="refinar-gerar-input" placeholder="Como deseja refinar? Ex: Mais versículos, linguagem mais simples..." rows="2"></textarea>
+          <button class="btn-primary" onclick="refinarResult('gerar')">✨ Refinar Agora</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXEGESE -->
+    <section id="section-exegese" class="section hidden">
+      <div class="section-header">
+        <h2>🔍 Análise Exegética</h2>
+        <p>Análise profunda: contexto, idioma original, teologia e aplicação.</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label>📖 Passagem bíblica
+            <span class="tip" title="Ex: Romanos 8:1-11 ou Salmo 23">ℹ️</span>
+          </label>
+          <input type="text" id="input-exegese" placeholder="Ex: Romanos 8:1-11 ou Salmo 23"/>
+        </div>
+
+        <div class="form-group">
+          <label>🔎 O que analisar?</label>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="c1" checked/> 📜 Contexto histórico-cultural</label>
+            <label class="check"><input type="checkbox" id="c2" checked/> 🔤 Palavras no idioma original</label>
+            <label class="check"><input type="checkbox" id="c3" checked/> 🏗️ Estrutura literária</label>
+            <label class="check"><input type="checkbox" id="c4" checked/> ✝️ Teologia do texto</label>
+            <label class="check"><input type="checkbox" id="c5" checked/> 🛡️ Erros doutrinários sobre este texto</label>
+            <label class="check"><input type="checkbox" id="c6" checked/> 🔗 Referências cruzadas</label>
+            <label class="check"><input type="checkbox" id="c7" checked/> 💡 Aplicação prática</label>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="generateExegese()">🔍 Analisar Passagem</button>
+      </div>
+
+      <div id="resultado-exegese" class="resultado hidden">
+        <div class="resultado-header">
+          <h3>Análise Exegética</h3>
+          <div class="resultado-actions">
+            <button class="btn-act" onclick="copyResult('exegese')">📋</button>
+            <button class="btn-act" onclick="saveResult('exegese')">💾</button>
+            <button class="btn-act" onclick="downloadPDF('exegese')">📄</button>
+            <button class="btn-act" onclick="printResult('exegese')">🖨️</button>
+            <button class="btn-act" onclick="shareResult('exegese')">📤</button>
+          </div>
+        </div>
+        <div id="resultado-exegese-content" class="resultado-text"></div>
+      </div>
+    </section>
+
+    <!-- ESTUDOS RÁPIDOS -->
+    <section id="section-estudos" class="section hidden">
+      <div class="section-header">
+        <h2>📚 Estudos Rápidos</h2>
+        <p>Ferramentas especializadas para cada necessidade.</p>
+      </div>
+
+      <div class="estudos-grid">
+        <div class="estudo-card vermelho" onclick="quickStudy('heresias')">
+          <span>🛡️</span>
+          <h4>Detector de Heresias</h4>
+          <p>Verifica se uma doutrina é bíblica</p>
+        </div>
+        <div class="estudo-card azul" onclick="quickStudy('palavra')">
+          <span>🔤</span>
+          <h4>Estudo de Palavra</h4>
+          <p>Pesquisa profunda de uma palavra</p>
+        </div>
+        <div class="estudo-card roxo" onclick="quickStudy('personagem')">
+          <span>👤</span>
+          <h4>Personagem Bíblico</h4>
+          <p>Vida e legado de um personagem</p>
+        </div>
+        <div class="estudo-card verde" onclick="quickStudy('comparativo')">
+          <span>⚖️</span>
+          <h4>AT vs NT</h4>
+          <p>Compare um tema nos dois testamentos</p>
+        </div>
+        <div class="estudo-card laranja" onclick="quickStudy('refutacao')">
+          <span>🗡️</span>
+          <h4>Refutação Bíblica</h4>
+          <p>Responda objeções com a Bíblia</p>
+        </div>
+        <div class="estudo-card dourado" onclick="quickStudy('series')">
+          <span>📅</span>
+          <h4>Série de Mensagens</h4>
+          <p>Crie uma série completa</p>
+        </div>
+        <div class="estudo-card ciano" onclick="quickStudy('parabola')">
+          <span>📿</span>
+          <h4>Estudo de Parábola</h4>
+          <p>Análise completa de uma parábola</p>
+        </div>
+        <div class="estudo-card escuro" onclick="quickStudy('geografia')">
+          <span>🗺️</span>
+          <h4>Geografia Bíblica</h4>
+          <p>Contexto geográfico de uma passagem</p>
+        </div>
+      </div>
+
+      <div id="quick-form" class="form-card hidden">
+        <h3 id="quick-title">Estudo</h3>
+        <p id="quick-desc" class="form-desc"></p>
+        <div class="form-group">
+          <textarea id="quick-input" rows="3"></textarea>
+        </div>
+        <button class="btn-primary" onclick="executeQuickStudy()">⚡ Gerar Estudo</button>
+      </div>
+
+      <div id="resultado-estudos" class="resultado hidden">
+        <div class="resultado-header">
+          <h3 id="resultado-estudos-titulo">Resultado</h3>
+          <div class="resultado-actions">
+            <button class="btn-act" onclick="copyResult('estudos')">📋</button>
+            <button class="btn-act" onclick="saveResult('estudos')">💾</button>
+            <button class="btn-act" onclick="downloadPDF('estudos')">📄</button>
+            <button class="btn-act" onclick="printResult('estudos')">🖨️</button>
+            <button class="btn-act" onclick="shareResult('estudos')">📤</button>
+          </div>
+        </div>
+        <div id="resultado-estudos-content" class="resultado-text"></div>
+      </div>
+    </section>
+
+    <!-- SALVOS -->
+    <section id="section-salvos" class="section hidden">
+      <div class="section-header">
+        <h2>💾 Meus Estudos</h2>
+        <p>Todos os seus estudos salvos em um lugar.</p>
+      </div>
+      <div class="search-box">
+        <input type="text" id="busca-salvos" placeholder="🔍 Buscar estudos..." oninput="filtrarSalvos()"/>
+      </div>
+      <div class="filtros-chips">
+        <button class="chip active" data-filtro="todos" onclick="filtrarPorTipo(this)">Todos</button>
+        <button class="chip" data-filtro="mensagem" onclick="filtrarPorTipo(this)">Mensagens</button>
+        <button class="chip" data-filtro="exegese" onclick="filtrarPorTipo(this)">Exegeses</button>
+        <button class="chip" data-filtro="estudo" onclick="filtrarPorTipo(this)">Estudos</button>
+      </div>
+      <div id="lista-salvos"></div>
+    </section>
+
+    <!-- PLANOS -->
+    <section id="section-planos" class="section hidden">
+      <div class="section-header">
+        <h2>👑 Escolha seu Plano</h2>
+        <p>Invista no seu ministério. Ferramentas profissionais por um preço acessível.</p>
+      </div>
+
+      <div class="planos-grid">
+        <div class="plano-card">
+          <div class="plano-header cinza">
+            <h3>Gratuito</h3>
+            <div class="plano-preco">R$0</div>
+            <p>Para experimentar</p>
+          </div>
+          <ul class="plano-lista">
+            <li>✅ 3 gerações para testar</li>
+            <li>✅ Gerador básico</li>
+            <li>✅ Exegese simples</li>
+            <li>❌ PDF e impressão</li>
+            <li>❌ Estudos salvos</li>
+            <li>❌ Sem limite diário</li>
+          </ul>
+          <button class="btn-plano cinza" disabled>Plano Atual</button>
+        </div>
+
+        <div class="plano-card destaque">
+          <div class="plano-badge">⭐ POPULAR</div>
+          <div class="plano-header dourado">
+            <h3>Essencial</h3>
+            <div class="plano-preco">R$29<span>/mês</span></div>
+            <p>Para líderes ativos</p>
+          </div>
+          <ul class="plano-lista">
+            <li>✅ 10 gerações por dia</li>
+            <li>✅ Todas as funções</li>
+            <li>✅ PDF e impressão</li>
+            <li>✅ Estudos salvos</li>
+            <li>✅ Compartilhamento</li>
+            <li>❌ Gerações ilimitadas</li>
+          </ul>
+          <button class="btn-plano dourado" onclick="assinar('Essencial R$29')">Assinar por R$29</button>
+        </div>
+
+        <div class="plano-card">
+          <div class="plano-header premium">
+            <h3>Ilimitado</h3>
+            <div class="plano-preco">R$69<span>/mês</span></div>
+            <p>Para ministérios sérios</p>
+          </div>
+          <ul class="plano-lista">
+            <li>✅ Gerações ilimitadas</li>
+            <li>✅ Tudo do Essencial</li>
+            <li>✅ Sem limite diário</li>
+            <li>✅ Suporte prioritário</li>
+            <li>✅ Novidades em 1º lugar</li>
+            <li>✅ Múltiplos usuários</li>
+          </ul>
+          <button class="btn-plano premium" onclick="assinar('Ilimitado R$69')">Assinar por R$69</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- LOADING -->
+<div id="loading" class="loading-overlay hidden">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <p id="loading-msg">Consultando as Escrituras...</p>
+    <small>Aguarde alguns segundos</small>
+  </div>
+</div>
+
+<!-- MODAL LIMITE -->
+<div id="modal-limite" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-icon">🙏</div>
+    <h3>Você chegou ao limite de hoje!</h3>
+    <p>Seu ministério merece o melhor. Desbloqueie gerações ilimitadas e pregue com mais poder.</p>
+    <div class="modal-planos">
+      <button class="btn-plano dourado" onclick="assinar('Essencial R$29');closeModal()">R$29/mês — 10 por dia</button>
+      <button class="btn-plano premium" onclick="assinar('Ilimitado R$69');closeModal()">R$69/mês — Ilimitado</button>
+    </div>
+    <button class="btn-fechar" onclick="closeModal()">Agora não</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
