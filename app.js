@@ -1,7 +1,12 @@
 // ===== CONFIGURAÇÃO =====
 // ⚠️ A chave API é carregada de variáveis de ambiente (seguro!)
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
+
+// Verificar se a chave foi carregada
+if (!API_KEY) {
+  console.error("❌ ERRO: Chave API não carregada! Verifique as variáveis de ambiente no Vercel.");
+}
 
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
